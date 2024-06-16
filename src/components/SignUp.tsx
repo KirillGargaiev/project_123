@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {ReactElement, useState} from 'react';
 import { styled } from 'goober';
 import {MultiSelectDropdown} from "./Dropdown";
-import {UserProvider, useUserContext} from './contexts/UserContext';
+import useUsers from "./contexts/CookieContext";
 
-const SignUp: React.FC = () => {
+const SignUp = ():ReactElement => {
+  const {addUser} = useUsers();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [birthday, setBirthday] = useState<string>('');
@@ -24,8 +25,6 @@ const SignUp: React.FC = () => {
     subjects: '',
     gender: '' // Add this line
   });
-
-  const context = useUserContext();
 
   const [subjects, setSubjects] = useState<string[]>([]);
 
@@ -103,7 +102,6 @@ const SignUp: React.FC = () => {
 
     setErrors(newErrors);
 
-    // Check for any validation errors
     const hasErrors = Object.values(newErrors).some(error => error !== '');
 
     if (!hasErrors) {
@@ -116,8 +114,8 @@ const SignUp: React.FC = () => {
         gender,
       };
 
-      context.addUser(newUser);
-      window.location.href = "/";
+     addUser(newUser);
+     window.location.href = "/";
     }
   };
 
@@ -213,13 +211,7 @@ const SignUp: React.FC = () => {
   );
 };
 
-const SignUpWithContext = () => {
-  return (<UserProvider>
-    <SignUp/>
-  </UserProvider>)
-}
-
-export default SignUpWithContext;
+export default SignUp;
 
 const Container = styled("div")`
     display: flex;

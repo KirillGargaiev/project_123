@@ -13,11 +13,14 @@ interface UserContextType {
 }
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {const [users, setUsers] = useState<User[]>([]);
+export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [users, setUsers] = useState<User[]>([]);
 
     const addUser = (user: User) => {
       setUsers((prevUsers) => [...prevUsers, user]);
     };
+
+  console.log({users})
 
   return (
     <UserContext.Provider value={{ users, addUser }}>

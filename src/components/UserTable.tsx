@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from 'goober';
-import { useUserContext } from './contexts/UserContext';
+import useUsers from "./contexts/CookieContext";
 
 const Container = styled('div')`
   max-width: 800px;
@@ -62,7 +62,7 @@ const Table = styled('table')`
 `;
 
 const UserTable: React.FC = () => {
-  const { users } = useUserContext();
+  const { users} = useUsers();
   const [genderFilter, setGenderFilter] = useState<string>('');
   const [emailFilter, setEmailFilter] = useState<string>('');
   const [subjectFilter, setSubjectFilter] = useState<string>('');

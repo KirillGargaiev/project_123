@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from 'goober';
 import UserTable from "./UserTable";
-import {UserProvider} from "./contexts/UserContext";
 
 
 const animals = [
@@ -47,7 +46,6 @@ const Content = () => {
 
 
   return (
-    <UserProvider>
       <Container>
         <TitleContainer>
           {animals.map((animal) => (
@@ -71,8 +69,6 @@ const Content = () => {
         )}
         <UserTable/>
       </Container>
-    </UserProvider>
-
   );
 };
 
