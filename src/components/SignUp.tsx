@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-//</editor-fold>
 import { styled } from 'goober';
 import {MultiSelectDropdown} from "./Dropdown";
-import { useUserContext } from './contexts/UserContext';
+import {UserProvider, useUserContext} from './contexts/UserContext';
 
 const SignUp: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -25,7 +24,8 @@ const SignUp: React.FC = () => {
     subjects: '',
     gender: '' // Add this line
   });
-  const { addUser } = useUserContext();
+
+  const context = useUserContext();
 
   const [subjects, setSubjects] = useState<string[]>([]);
 
@@ -116,7 +116,7 @@ const SignUp: React.FC = () => {
         gender,
       };
 
-      addUser(newUser);
+      context.addUser(newUser);
       window.location.href = "/";
     }
   };
@@ -129,90 +129,97 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <Container>
-      <h2>Sign Up</h2>
-      <FormContainer onSubmit={handleSubmit}>
-        <Label htmlFor="username">Username</Label>
-        <Input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        {errors.username && <ErrorMessage>{errors.username}</ErrorMessage>}
+      <Container>
+        <h2>Sign Up</h2>
+        <FormContainer onSubmit={handleSubmit}>
+          <Label htmlFor="username">Username</Label>
+          <Input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          {errors.username && <ErrorMessage>{errors.username}</ErrorMessage>}
 
-        <Label htmlFor="password">Password</Label>
-        <Input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+          <Label htmlFor="password">Password</Label>
+          <Input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
 
-        <Label htmlFor="birthday">Birthday</Label>
-        <Input
-          type="date"
-          id="birthday"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
-          required
-        />
-        {errors.birthday && <ErrorMessage>{errors.birthday}</ErrorMessage>}
+          <Label htmlFor="birthday">Birthday</Label>
+          <Input
+            type="date"
+            id="birthday"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            required
+          />
+          {errors.birthday && <ErrorMessage>{errors.birthday}</ErrorMessage>}
 
-        <Label htmlFor="email">Email</Label>
-        <Input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
 
-        <Label htmlFor="subjects">Subjects</Label>
-        <MultiSelectDropdown
-          options={availableSubjects}
-          selectedOptions={subjects}
-          onChange={handleSubjectChange}
-        />
-        {errors.subjects && <ErrorMessage>{errors.subjects}</ErrorMessage>}
-        <Label htmlFor="gender">Gender</Label>
-        <GenderContainer>
-          <GenderOption>
-            <input
-              type="radio"
-              id="male"
-              name="gender"
-              value="male"
-              checked={gender === "male"}
-              onChange={(e) => setGender(e.target.value)}
-            />
-            <label htmlFor="male">Male</label>
-          </GenderOption>
-          <GenderOption>
-            <input
-              type="radio"
-              id="female"
-              name="gender"
-              value="female"
-              checked={gender === "female"}
-              onChange={(e) => setGender(e.target.value)}
-            />
-            <label htmlFor="female">Female</label>
-          </GenderOption>
-        </GenderContainer>
-        {errors.gender && <ErrorMessage>{errors.gender}</ErrorMessage>}
+          <Label htmlFor="subjects">Subjects</Label>
+          <MultiSelectDropdown
+            options={availableSubjects}
+            selectedOptions={subjects}
+            onChange={handleSubjectChange}
+          />
+          {errors.subjects && <ErrorMessage>{errors.subjects}</ErrorMessage>}
+          <Label htmlFor="gender">Gender</Label>
+          <GenderContainer>
+            <GenderOption>
+              <input
+                type="radio"
+                id="male"
+                name="gender"
+                value="male"
+                checked={gender === "male"}
+                onChange={(e) => setGender(e.target.value)}
+              />
+              <label htmlFor="male">Male</label>
+            </GenderOption>
+            <GenderOption>
+              <input
+                type="radio"
+                id="female"
+                name="gender"
+                value="female"
+                checked={gender === "female"}
+                onChange={(e) => setGender(e.target.value)}
+              />
+              <label htmlFor="female">Female</label>
+            </GenderOption>
+          </GenderContainer>
+          {errors.gender && <ErrorMessage>{errors.gender}</ErrorMessage>}
 
-        <Button type="submit">Sign Up</Button>
-      </FormContainer>
-    </Container>
+          <Button type="submit">Sign Up</Button>
+        </FormContainer>
+      </Container>
+
   );
 };
 
-export default SignUp;
+const SignUpWithContext = () => {
+  return (<UserProvider>
+    <SignUp/>
+  </UserProvider>)
+}
+
+export default SignUpWithContext;
 
 const Container = styled("div")`
     display: flex;
