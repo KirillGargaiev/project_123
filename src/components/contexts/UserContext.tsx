@@ -15,15 +15,15 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {const [users, setUsers] = useState<User[]>([]);
 
-  const addUser = (user: User) => {
-    setUsers((prevUsers) => [...prevUsers, user]);
-  };
+    const addUser = (user: User) => {
+      setUsers((prevUsers) => [...prevUsers, user]);
+    };
 
   return (
     <UserContext.Provider value={{ users, addUser }}>
       {children}
     </UserContext.Provider>
-);
+  );
 };
 
 export const useUserContext = (): UserContextType => {
@@ -33,3 +33,4 @@ export const useUserContext = (): UserContextType => {
   }
   return context;
 }
+
